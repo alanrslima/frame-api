@@ -18,6 +18,7 @@ test('Should sign up a new user', async () => {
 
 test('Should not sign up a user if already exists', async () => {
   const userMemoryRepository = new UserMemoryRepository([{
+    id: '123',
     email: 'fulano@email.com',
     name: 'Fulano',
     password: 'ed73d8e980539ab246f88ed1e056fd86eea364a52942154bcd750f2a7f975ea843df7a3c74d70a19747cac097ac1a2e154367ea17adb17abe2b9604da5860810'

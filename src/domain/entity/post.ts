@@ -1,17 +1,16 @@
-import { type Asset } from './asset'
-import { type User } from './user'
-
+import { type Photo } from './photo'
+import { randomUUID } from 'crypto'
 export class Post {
+  readonly id: string
   readonly description: string
-  readonly assets: Asset[]
-  readonly owner: User
+  readonly photos: Photo[]
 
   constructor (values: {
     description: string
-    assets: Asset[]
-    owner: User
+    photos: Photo[]
   }) {
+    this.id = randomUUID()
     this.description = values.description
-    this.assets = values.assets
+    this.photos = values.photos
   }
 }

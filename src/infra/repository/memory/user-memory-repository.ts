@@ -12,6 +12,10 @@ export class UserMemoryRepository implements UserRepository {
     return this.users.find(user => user.email === email)
   }
 
+  async getById (id: string): Promise<UserModel | undefined> {
+    return this.users.find(user => user.id === id)
+  }
+
   async save (user: UserModel): Promise<void> {
     this.users.push(user)
   }
