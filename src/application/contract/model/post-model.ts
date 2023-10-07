@@ -3,4 +3,5 @@ export interface PostModel {
   userId: string
   description: string
   photos: Array<{ url: string }>
+  likes?: number
 }

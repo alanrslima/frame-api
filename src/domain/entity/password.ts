@@ -23,7 +23,7 @@ export default class Password {
     return await new Promise((resolve, reject) => {
       pbkdf2(plainPassword, this.salt, 100, 64, 'sha512', (err, value) => {
         if (err) { reject(err) }
-        resolve(this.value === value.toString())
+        resolve(this.value === value.toString('hex'))
       })
     })
   }

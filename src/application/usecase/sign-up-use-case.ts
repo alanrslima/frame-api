@@ -6,8 +6,8 @@ export class SignUpUseCase {
   constructor (private readonly userRepository: UserRepository) {}
 
   async execute (input: Input): Promise<Output> {
-    const userData = await this.userRepository.get(input.email)
-    if (userData) { throw new UserAlreadyExistsError() }
+    const userExists = await this.userRepository.some(input.email)
+    if (userExists) { throw new UserAlreadyExistsError() }
     const user = await User.create({ email: input.email, password: input.password, name: input.name })
     await this.userRepository.save({ email: user.email.getValue(), name: user.name.getValue(), password: user.password.getValue() })
   }

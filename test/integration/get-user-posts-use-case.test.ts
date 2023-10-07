@@ -7,13 +7,15 @@ test('Should get only user posts', async () => {
       id: '1',
       description: 'post1',
       photos: [{ url: 'www.post.com' }],
-      userId: '123'
+      userId: '123',
+      likes: 2
     },
     {
       id: '2',
       description: 'post2',
       photos: [{ url: 'www.post2.com' }],
-      userId: '1234'
+      userId: '1234',
+      likes: 10
     }
   ])
   const getUserPostsUseCase = new GetUserPostsUseCase(postMemoryRepository)

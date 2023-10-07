@@ -8,12 +8,20 @@ export class UserMemoryRepository implements UserRepository {
     this.users = users ?? []
   }
 
-  async get (email: string): Promise<UserModel | undefined> {
-    return this.users.find(user => user.email === email)
+  async some (id: string): Promise<boolean> {
+    return this.users.some(user => user.id === id)
   }
 
-  async getById (id: string): Promise<UserModel | undefined> {
-    return this.users.find(user => user.id === id)
+  async getByEmail (email: string): Promise<UserModel> {
+    const user = this.users.find(user => user.email === email)
+    if (!user) { throw new Error('User not found') }
+    return user
+  }
+
+  async get (id: string): Promise<UserModel> {
+    const user = this.users.find(user => user.id === id)
+    if (!user) { throw new Error('User not found') }
+    return user
   }
 
   async save (user: UserModel): Promise<void> {
