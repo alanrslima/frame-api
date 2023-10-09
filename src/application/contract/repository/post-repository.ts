@@ -1,7 +1,9 @@
-import { type PostModel } from '../model/post-model'
+import { type Post } from '@/domain/entity/post'
 
 export interface PostRepository {
-  save: (post: PostModel) => Promise<void>
-  getByUser: (userId: string) => Promise<PostModel[]>
-  get: (code: string) => Promise<PostModel>
+  save: (post: Post) => Promise<void>
+  update: (post: Post) => Promise<void>
+  getByUser: (userId: string) => Promise<Post[]>
+  get: (code: string) => Promise<Post>
+  delete: (code: string, ownerId: string) => Promise<void>
 }

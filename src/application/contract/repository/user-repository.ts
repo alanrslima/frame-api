@@ -1,8 +1,8 @@
-import { type UserModel } from '../model/user-model'
+import { type User } from '@/domain/entity/user'
 
 export interface UserRepository {
-  save: (user: Omit<UserModel, 'id'>) => Promise<void>
-  get: (id: string) => Promise<UserModel>
-  getByEmail: (email: string) => Promise<UserModel>
+  save: (user: Omit<User, 'id'>) => Promise<void>
+  get: (id: string) => Promise<User>
+  getByEmail: (email: string) => Promise<User>
   some: (id: string) => Promise<boolean>
 }

@@ -10,7 +10,7 @@ export class CreatePostController implements Controller {
 
   async handle (request: Request): Promise<HttpResponse<CreatePostUseCaseOutput>> {
     const { userId, description } = request
-    const authenticationModel = await this.createPostUseCase.execute({ description, userId, files: [] })
+    const authenticationModel = await this.createPostUseCase.execute({ description, userId, photos: [] })
     return ok(authenticationModel)
   }
 }

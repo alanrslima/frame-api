@@ -1,27 +1,19 @@
 import { GetUserPostsUseCase } from '@/application/usecase/get-user-posts-use-case'
+import { Post } from '@/domain/entity/post'
+import { User } from '@/domain/entity/user'
 import { PostMemoryRepository } from '@/infra/repository/memory/post-memory-repository'
 
 test('Should get only user posts', async () => {
-  const postMemoryRepository = new PostMemoryRepository([
-    {
-      id: '1',
-      description: 'post1',
-      photos: [{ url: 'www.post.com' }],
-      userId: '123',
-      likes: 2
-    },
-    {
-      id: '2',
-      description: 'post2',
-      photos: [{ url: 'www.post2.com' }],
-      userId: '1234',
-      likes: 10
-    }
-  ])
+  const owner1 = await User.create({ email: 'johndoe@email.com', name: 'John Doe', password: 'strong@password' })
+  const post1 = new Post({ description: 'amazing post', owner: owner1, photos: [] })
+  const owner2 = await User.create({ email: 'mary@email.com', name: 'Mary Anne', password: 'strong@password' })
+  const post2 = new Post({ description: 'amazing post', owner: owner2, photos: [] })
+
+  const postMemoryRepository = new PostMemoryRepository([post1, post2])
   const getUserPostsUseCase = new GetUserPostsUseCase(postMemoryRepository)
   const posts = await getUserPostsUseCase.execute({
-    userId: '1234'
+    userId: owner2.id
   })
   expect(posts).toHaveLength(1)
-  expect(posts[0].id).toBe('2')
+  expect(posts[0].id).toBe(post2.id)
 })
