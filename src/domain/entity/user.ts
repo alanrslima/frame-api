@@ -7,11 +7,14 @@ export class User {
   readonly id: string
   readonly email: Email
   readonly name: Name
+  readonly resume?: string
   readonly password: Password
+  readonly createdAt: Date
 
-  constructor (values: {
+  private constructor (values: {
     id: string
     email: Email
+    resume?: string
     password: Password
     name: Name
   }) {
@@ -19,23 +22,27 @@ export class User {
     this.email = values.email
     this.password = values.password
     this.name = values.name
+    this.resume = values.resume
+    this.createdAt = new Date()
   }
 
-  static async create (values: { email: string, password: string, name: string }): Promise<User> {
+  static async create (values: { email: string, password: string, name: string, resume?: string }): Promise<User> {
     return new User({
       id: randomUUID(),
       email: new Email(values.email),
       password: await Password.create(values.password, 'salt'),
-      name: new Name(values.name)
+      name: new Name(values.name),
+      resume: values.resume
     })
   }
 
-  static buildExistingUser (values: { id: string, email: string, name: string, hashPassword: string }): User {
+  static buildExistingUser (values: { id: string, email: string, name: string, hashPassword: string, resume?: string }): User {
     return new User({
       id: values.id,
       email: new Email(values.email),
       name: new Name(values.name),
-      password: new Password(values.hashPassword, 'salt')
+      password: new Password(values.hashPassword, 'salt'),
+      resume: values.resume
     })
   }
 

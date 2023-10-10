@@ -1,24 +1,29 @@
-import { type PostModel } from '@/application/contract/model/post-model'
 import { type PostRepository } from '@/application/contract/repository/post-repository'
+import { type Post } from '@/domain/entity/post'
 import { MysqlDataSource } from '@/infra/data-source/mysql/mysql-data-source'
 
 export class PostMysqlRepository implements PostRepository {
-  readonly posts: PostModel[]
+  update: (post: Post) => Promise<void>
+  delete: (code: string, ownerId: string) => Promise<void>
+  readonly posts: Post[]
 
-  async save (post: PostModel): Promise<void> {
-    throw new Error('Method not implemented')
-  }
-
-  async getByUser (userId: string): Promise<PostModel[]> {
-    throw new Error('Method not implemented')
-  }
-
-  async get (code: string): Promise<PostModel> {
-    return await new Promise((resolve, reject) => {
-      MysqlDataSource.connection?.query('SELECT * FROM posts WHERE `id` = ?', [code], (err, results) => {
+  async save (post: Post): Promise<void> {
+   await new Promise((resolve, reject) => {
+    MysqlDataSource.connection?.query(
+      'INSERT INTO `posts` (post_id, owner_id, description, created_at) VALUES (?, ?, ?, ?)',
+      [post.id, post.owner.id, post.description, post.createdAt],
+      (err) => {
         if (err) { reject(err) }
-        resolve({ description: '123', id: '1', photos: [], userId: '123', comments: [] })
+        resolve(null)
       })
-    })
+   })
+  }
+
+  async getByUser (userId: string): Promise<Post[]> {
+    throw new Error('Method not implemented')
+  }
+
+  async get (code: string): Promise<Post> {
+    throw new Error('Method not implemented')
   }
 }

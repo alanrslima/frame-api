@@ -3,6 +3,7 @@
     "outDir": "dist",
     "module": "commonjs",
     "target": "es2019",
+    "sourceMap": true,        
     "esModuleInterop": true,
     "rootDirs": ["src", "test"],
     "baseUrl": "src",
@@ -10,7 +11,11 @@
       "@/tests/*": ["../test/*"],
       "@/*": ["*"]
     },
-    "strictNullChecks": true
+    "strict": false,
+    "strictNullChecks": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true 
+
   },
   "include": ["src", "test"]
 }

@@ -10,6 +10,7 @@ export class Post {
   readonly photos: Photo[]
   readonly comments: Comment[]
   readonly likes: Like[]
+  readonly createdAt: Date
 
   constructor (values: {
     owner: User
@@ -24,6 +25,7 @@ export class Post {
     this.owner = values.owner
     this.likes = values?.likes ?? []
     this.comments = values.comments ?? []
+    this.createdAt = new Date()
   }
 
   addComment (comment: Comment): void {

@@ -1,19 +1,19 @@
+import { type Encrypter } from '@/application/contract/cryptography/encrypter'
 import { InvalidCredentialsError } from '../error/invalid-credentials-error'
 import { type User } from './user'
 
 export class Session {
-  private token: string
+  private readonly token: string
 
-  constructor (private readonly user: User, private readonly password: string) {}
-
-  async create (): Promise<void> {
-    const validPassword = await this.user.validatePassword(this.password)
-    if (!validPassword) { throw new InvalidCredentialsError() }
-    this.generateToken()
+  private constructor (values: { token: string }) {
+    this.token = values.token
   }
 
-  private generateToken (): void {
-    this.token = '221312321'
+  static async create (values: { user: User, password: string, encrypter: Encrypter }): Promise<Session> {
+    const validPassword = await values.user.validatePassword(values.password)
+    if (!validPassword) { throw new InvalidCredentialsError() }
+    const token = await values.encrypter.encrypt(values.user.id)
+    return new Session({ token })
   }
 
   getToken (): string {
